@@ -64,8 +64,8 @@ async def market_overview():
     return {
         "zones": load_zones(),
         "data_sources": [
-            {"name": "AirDNA", "cost_eur_monthly": 68, "note": "Proprietary scoring, scrapes data"},
-            {"name": "AirROI", "cost_eur_monthly": 0, "note": "Free; reportedly most accurate per peer review"},
+            {"name": "AirROI", "cost_eur_monthly": 10, "note": "Primary · pay-as-you-go $0.01/call · 5/7 zones covered"},
+            {"name": "AirDNA Enterprise", "cost_eur_monthly": 300, "note": "Optional fallback for Pays de Gex / Geneva periphery only"},
             {"name": "Airbtics", "cost_eur_monthly": 0, "note": "Smart zones, figures differ from AirDNA"},
             {"name": "Beyond Pricing", "cost_eur_monthly": 0, "note": "Free market analysis tier"},
         ],
