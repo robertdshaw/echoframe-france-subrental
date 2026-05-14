@@ -18,6 +18,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 
+from api.data_sources_routes import router as data_sources_router
 from api.documents_routes import router as documents_router
 from api.finance_routes import router as finance_router
 from api.forecast_routes import router as forecast_router
@@ -136,6 +137,7 @@ app.include_router(meetings_router)
 app.include_router(documents_router)
 app.include_router(signals_router)
 app.include_router(narrative_router)
+app.include_router(data_sources_router)
 
 
 @app.get("/")
