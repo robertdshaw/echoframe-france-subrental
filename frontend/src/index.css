@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ef-navy-900: #0B1426;
+  --ef-navy-800: #111D35;
+  --ef-navy-700: #1A2A4A;
+  --ef-navy-600: #243B63;
+  --ef-slate-400: #8B95A5;
+  --ef-slate-300: #A8B2C1;
+  --ef-slate-200: #C5CDD8;
+  --ef-orange-500: #E8722A;
+  --ef-orange-400: #F28B4A;
+  --ef-orange-300: #F7A76B;
+  --ef-green-500: #2ECC71;
+  --ef-red-500: #E74C3C;
+  --ef-amber-500: #F39C12;
+  --ef-surface: #0F1923;
+  --ef-surface-raised: #162233;
+  --ef-border: #1E3048;
+  --ef-text-primary: #E8ECF1;
+  --ef-text-secondary: #8B95A5;
+  --ef-text-muted: #5A6577;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(232,114,42,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 100% 100%, rgba(36,59,99,0.20) 0%, transparent 60%),
+    var(--ef-navy-900);
+  background-attachment: fixed;
+  color: var(--ef-text-primary);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono { font-family: 'JetBrains Mono', monospace; font-variant-numeric: tabular-nums; }
+
+.eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ef-slate-400);
+}
+
+.card {
+  background: linear-gradient(180deg, var(--ef-navy-800) 0%, var(--ef-surface) 100%);
+  border: 1px solid var(--ef-border);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.04),
+    0 1px 2px rgba(0,0,0,0.30),
+    0 8px 24px rgba(0,0,0,0.20);
+  transition: border-color 200ms ease, transform 200ms ease;
+}
+
+.card:hover { border-color: var(--ef-navy-600); }
+
+button { font: inherit; cursor: pointer; }
+input, select, textarea { font: inherit; color: inherit; }
+
+.verdict-target { color: var(--ef-green-500); }
+.verdict-wait { color: var(--ef-amber-500); }
+.verdict-avoid { color: var(--ef-red-500); }
+
+.scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+.scrollbar-thin::-webkit-scrollbar-thumb { background: var(--ef-navy-600); border-radius: 3px; }
+.scrollbar-thin::-webkit-scrollbar-track { background: transparent; }

@@ -1,0 +1,72 @@
+## Render blueprint for EchoFrame France Subrental Intelligence.
+##
+## Push to GitHub, then Render → New → Blueprint → point at this repo.
+
+services:
+  # ---------------------------------------------------------------
+  # Backend — FastAPI on Python
+  # ---------------------------------------------------------------
+  - type: web
+    name: echoframe-france-api
+    runtime: python
+    region: frankfurt
+    plan: free
+    rootDir: backend
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ENVIRONMENT
+        value: production
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: ENABLE_LIVE_APIS
+        value: "true"
+      - key: ENABLE_NLP
+        value: "true"
+      - key: ENABLE_REGIME_DETECTION
+        value: "true"
+      - key: CORS_ORIGINS
+        # Replace with the Render static-site URL after first deploy.
+        value: '["https://echoframe-france-web.onrender.com","http://localhost:3000","http://localhost:5173"]'
+      - key: DATABASE_URL
+        value: sqlite:///./echoframe_france.db
+      # Optional API keys — set via Render dashboard, never commit.
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: NEWSDATA_API_KEY
+        sync: false
+      - key: INSEE_API_KEY
+        sync: false
+      - key: BDF_API_KEY
+        sync: false
+
+  # ---------------------------------------------------------------
+  # Frontend — static React build served from Render's CDN.
+  # ---------------------------------------------------------------
+  - type: web
+    name: echoframe-france-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: ./dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
