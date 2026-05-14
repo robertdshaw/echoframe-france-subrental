@@ -1,0 +1,45 @@
+[
+  {"zone_slug": "pays-de-gex", "name": "Cessy", "code_insee": "01071", "lat": 46.3203, "lng": 6.0786, "population": 4894, "median_income_eur": 38500, "vacancy_rate_pct": 3.2, "active_workers": 2400},
+  {"zone_slug": "pays-de-gex", "name": "Ferney-Voltaire", "code_insee": "01160", "lat": 46.2558, "lng": 6.1078, "population": 9876, "median_income_eur": 41200, "vacancy_rate_pct": 4.1, "active_workers": 4800},
+  {"zone_slug": "pays-de-gex", "name": "Gex", "code_insee": "01173", "lat": 46.3328, "lng": 6.0586, "population": 12148, "median_income_eur": 36700, "vacancy_rate_pct": 4.8, "active_workers": 5900},
+  {"zone_slug": "pays-de-gex", "name": "Divonne-les-Bains", "code_insee": "01143", "lat": 46.3567, "lng": 6.1422, "population": 9528, "median_income_eur": 39400, "vacancy_rate_pct": 5.2, "active_workers": 4500},
+  {"zone_slug": "pays-de-gex", "name": "Saint-Genis-Pouilly", "code_insee": "01354", "lat": 46.2433, "lng": 6.0231, "population": 12283, "median_income_eur": 42600, "vacancy_rate_pct": 4.0, "active_workers": 6100},
+
+  {"zone_slug": "annecy-haute-savoie", "name": "Annecy", "code_insee": "74010", "lat": 45.8992, "lng": 6.1294, "population": 130721, "median_income_eur": 28900, "vacancy_rate_pct": 5.6, "active_workers": 62400},
+  {"zone_slug": "annecy-haute-savoie", "name": "Talloires", "code_insee": "74275", "lat": 45.8442, "lng": 6.2167, "population": 1828, "median_income_eur": 32100, "vacancy_rate_pct": 12.4, "active_workers": 760},
+  {"zone_slug": "annecy-haute-savoie", "name": "Menthon-Saint-Bernard", "code_insee": "74180", "lat": 45.8567, "lng": 6.2031, "population": 1779, "median_income_eur": 34600, "vacancy_rate_pct": 14.8, "active_workers": 710},
+  {"zone_slug": "annecy-haute-savoie", "name": "Sévrier", "code_insee": "74271", "lat": 45.8633, "lng": 6.1467, "population": 4248, "median_income_eur": 31200, "vacancy_rate_pct": 9.1, "active_workers": 1900},
+  {"zone_slug": "annecy-haute-savoie", "name": "Veyrier-du-Lac", "code_insee": "74299", "lat": 45.8825, "lng": 6.1731, "population": 2249, "median_income_eur": 35800, "vacancy_rate_pct": 11.3, "active_workers": 950},
+
+  {"zone_slug": "greater-lyon", "name": "Lyon 1er", "code_insee": "69381", "lat": 45.7700, "lng": 4.8300, "population": 30068, "median_income_eur": 24800, "vacancy_rate_pct": 7.2, "active_workers": 18500},
+  {"zone_slug": "greater-lyon", "name": "Lyon 2e", "code_insee": "69382", "lat": 45.7500, "lng": 4.8300, "population": 31345, "median_income_eur": 27600, "vacancy_rate_pct": 6.4, "active_workers": 19200},
+  {"zone_slug": "greater-lyon", "name": "Lyon 3e", "code_insee": "69383", "lat": 45.7500, "lng": 4.8600, "population": 105263, "median_income_eur": 26100, "vacancy_rate_pct": 5.8, "active_workers": 58400},
+  {"zone_slug": "greater-lyon", "name": "Lyon 6e", "code_insee": "69386", "lat": 45.7700, "lng": 4.8500, "population": 51421, "median_income_eur": 35400, "vacancy_rate_pct": 6.1, "active_workers": 29300},
+  {"zone_slug": "greater-lyon", "name": "Lyon 7e", "code_insee": "69387", "lat": 45.7400, "lng": 4.8400, "population": 84226, "median_income_eur": 23900, "vacancy_rate_pct": 5.4, "active_workers": 49200},
+  {"zone_slug": "greater-lyon", "name": "Villeurbanne", "code_insee": "69266", "lat": 45.7667, "lng": 4.8800, "population": 152820, "median_income_eur": 22400, "vacancy_rate_pct": 5.9, "active_workers": 81400},
+  {"zone_slug": "greater-lyon", "name": "Caluire-et-Cuire", "code_insee": "69034", "lat": 45.7967, "lng": 4.8467, "population": 43554, "median_income_eur": 30100, "vacancy_rate_pct": 5.2, "active_workers": 22100},
+  {"zone_slug": "greater-lyon", "name": "Bron", "code_insee": "69029", "lat": 45.7333, "lng": 4.9100, "population": 42412, "median_income_eur": 20800, "vacancy_rate_pct": 6.8, "active_workers": 21900},
+
+  {"zone_slug": "grenoble-isere", "name": "Grenoble", "code_insee": "38185", "lat": 45.1885, "lng": 5.7245, "population": 158454, "median_income_eur": 22600, "vacancy_rate_pct": 9.4, "active_workers": 81200},
+  {"zone_slug": "grenoble-isere", "name": "Meylan", "code_insee": "38229", "lat": 45.2167, "lng": 5.7833, "population": 18443, "median_income_eur": 36800, "vacancy_rate_pct": 5.6, "active_workers": 9400},
+  {"zone_slug": "grenoble-isere", "name": "Saint-Martin-d'Hères", "code_insee": "38421", "lat": 45.1833, "lng": 5.7667, "population": 38723, "median_income_eur": 19200, "vacancy_rate_pct": 8.1, "active_workers": 18900},
+  {"zone_slug": "grenoble-isere", "name": "Échirolles", "code_insee": "38151", "lat": 45.1466, "lng": 5.7136, "population": 36953, "median_income_eur": 18400, "vacancy_rate_pct": 7.8, "active_workers": 17200},
+  {"zone_slug": "grenoble-isere", "name": "Vizille", "code_insee": "38562", "lat": 45.0833, "lng": 5.7833, "population": 7541, "median_income_eur": 23800, "vacancy_rate_pct": 8.6, "active_workers": 3400},
+
+  {"zone_slug": "dijon-cote-dor", "name": "Dijon", "code_insee": "21231", "lat": 47.3220, "lng": 5.0415, "population": 156920, "median_income_eur": 21900, "vacancy_rate_pct": 8.9, "active_workers": 74600},
+  {"zone_slug": "dijon-cote-dor", "name": "Beaune", "code_insee": "21054", "lat": 47.0250, "lng": 4.8400, "population": 20973, "median_income_eur": 23400, "vacancy_rate_pct": 9.2, "active_workers": 10200},
+  {"zone_slug": "dijon-cote-dor", "name": "Chenôve", "code_insee": "21166", "lat": 47.2833, "lng": 5.0167, "population": 13911, "median_income_eur": 17800, "vacancy_rate_pct": 8.4, "active_workers": 6300},
+  {"zone_slug": "dijon-cote-dor", "name": "Talant", "code_insee": "21617", "lat": 47.3417, "lng": 5.0117, "population": 11079, "median_income_eur": 24600, "vacancy_rate_pct": 6.2, "active_workers": 5100},
+  {"zone_slug": "dijon-cote-dor", "name": "Nuits-Saint-Georges", "code_insee": "21464", "lat": 47.1383, "lng": 4.9483, "population": 5402, "median_income_eur": 22100, "vacancy_rate_pct": 8.6, "active_workers": 2700},
+
+  {"zone_slug": "ski-access", "name": "La Clusaz", "code_insee": "74080", "lat": 45.9050, "lng": 6.4267, "population": 1788, "median_income_eur": 28400, "vacancy_rate_pct": 38.4, "active_workers": 1100},
+  {"zone_slug": "ski-access", "name": "Le Grand-Bornand", "code_insee": "74136", "lat": 45.9417, "lng": 6.4283, "population": 2278, "median_income_eur": 27200, "vacancy_rate_pct": 41.2, "active_workers": 1300},
+  {"zone_slug": "ski-access", "name": "Megève", "code_insee": "74173", "lat": 45.8567, "lng": 6.6172, "population": 3187, "median_income_eur": 36400, "vacancy_rate_pct": 48.6, "active_workers": 1700},
+  {"zone_slug": "ski-access", "name": "Morzine", "code_insee": "74191", "lat": 46.1800, "lng": 6.7081, "population": 2900, "median_income_eur": 26800, "vacancy_rate_pct": 52.3, "active_workers": 1600},
+  {"zone_slug": "ski-access", "name": "Les Gets", "code_insee": "74124", "lat": 46.1583, "lng": 6.6717, "population": 1382, "median_income_eur": 27500, "vacancy_rate_pct": 49.8, "active_workers": 800},
+
+  {"zone_slug": "geneva-periphery", "name": "Annemasse", "code_insee": "74012", "lat": 46.1950, "lng": 6.2350, "population": 36505, "median_income_eur": 25400, "vacancy_rate_pct": 6.8, "active_workers": 18900},
+  {"zone_slug": "geneva-periphery", "name": "Thonon-les-Bains", "code_insee": "74281", "lat": 46.3717, "lng": 6.4783, "population": 35741, "median_income_eur": 23200, "vacancy_rate_pct": 7.4, "active_workers": 17400},
+  {"zone_slug": "geneva-periphery", "name": "Évian-les-Bains", "code_insee": "74119", "lat": 46.4017, "lng": 6.5867, "population": 8989, "median_income_eur": 24600, "vacancy_rate_pct": 12.4, "active_workers": 4200},
+  {"zone_slug": "geneva-periphery", "name": "Bons-en-Chablais", "code_insee": "74041", "lat": 46.2667, "lng": 6.3667, "population": 6342, "median_income_eur": 28100, "vacancy_rate_pct": 5.6, "active_workers": 3100}
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "pays-de-gex",
+    "name": "Pays de Gex",
+    "profile": "Geneva cross-border commuters, CERN visitors, weekend stays",
+    "communes": ["Cessy", "Ferney-Voltaire", "Gex", "Divonne-les-Bains", "Saint-Genis-Pouilly"],
+    "center": [46.3167, 6.0667],
+    "radius_km": 25,
+    "median_adr_eur": 142,
+    "median_rent_per_m2_eur": 18.5,
+    "median_occupancy_pct": 64,
+    "regulatory_friction": "low"
+  },
+  {
+    "slug": "annecy-haute-savoie",
+    "name": "Annecy & Haute-Savoie Lakeside",
+    "profile": "Year-round tourism, summer lake + winter ski pre-positioning",
+    "communes": ["Annecy", "Talloires", "Menthon-Saint-Bernard", "Sévrier", "Veyrier-du-Lac"],
+    "center": [45.8992, 6.1294],
+    "radius_km": 20,
+    "median_adr_eur": 178,
+    "median_rent_per_m2_eur": 16.8,
+    "median_occupancy_pct": 72,
+    "regulatory_friction": "medium"
+  },
+  {
+    "slug": "greater-lyon",
+    "name": "Greater Lyon",
+    "profile": "Urban short-stay, business travel, medical tourism, events",
+    "communes": ["Lyon 1er", "Lyon 2e", "Lyon 3e", "Lyon 6e", "Lyon 7e", "Villeurbanne", "Caluire", "Bron"],
+    "center": [45.7640, 4.8357],
+    "radius_km": 15,
+    "median_adr_eur": 124,
+    "median_rent_per_m2_eur": 15.2,
+    "median_occupancy_pct": 68,
+    "regulatory_friction": "high"
+  },
+  {
+    "slug": "grenoble-isere",
+    "name": "Grenoble & Isère",
+    "profile": "University city, tech sector, winter sports gateway, scientific conferences",
+    "communes": ["Grenoble", "Meylan", "Saint-Martin-d'Hères", "Échirolles", "Vizille"],
+    "center": [45.1885, 5.7245],
+    "radius_km": 20,
+    "median_adr_eur": 98,
+    "median_rent_per_m2_eur": 12.4,
+    "median_occupancy_pct": 62,
+    "regulatory_friction": "low"
+  },
+  {
+    "slug": "dijon-cote-dor",
+    "name": "Dijon & Côte-d'Or",
+    "profile": "Wine routes, heritage tourism, gastronomic breaks, student city",
+    "communes": ["Dijon", "Beaune", "Chenôve", "Talant", "Nuits-Saint-Georges"],
+    "center": [47.3220, 5.0415],
+    "radius_km": 30,
+    "median_adr_eur": 108,
+    "median_rent_per_m2_eur": 11.8,
+    "median_occupancy_pct": 60,
+    "regulatory_friction": "low"
+  },
+  {
+    "slug": "ski-access",
+    "name": "Ski Access (Haute-Savoie Interior)",
+    "profile": "Extreme seasonality, high winter ADR, dead summers",
+    "communes": ["La Clusaz", "Le Grand-Bornand", "Megève", "Morzine", "Les Gets"],
+    "center": [45.9500, 6.4500],
+    "radius_km": 40,
+    "median_adr_eur": 235,
+    "median_rent_per_m2_eur": 19.5,
+    "median_occupancy_pct": 54,
+    "regulatory_friction": "medium"
+  },
+  {
+    "slug": "geneva-periphery",
+    "name": "Geneva Periphery (FR Side)",
+    "profile": "Short-stay for Geneva-priced-out visitors, UN/WHO/WEF overflow",
+    "communes": ["Annemasse", "Thonon-les-Bains", "Évian-les-Bains", "Bons-en-Chablais"],
+    "center": [46.1950, 6.2350],
+    "radius_km": 25,
+    "median_adr_eur": 156,
+    "median_rent_per_m2_eur": 17.2,
+    "median_occupancy_pct": 66,
+    "regulatory_friction": "medium"
+  }
+]

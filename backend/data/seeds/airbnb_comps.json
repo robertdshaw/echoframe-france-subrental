@@ -1,0 +1,35 @@
+[
+  {"id": "ab_001", "commune": "Annecy", "zone_slug": "annecy-haute-savoie", "adr_eur": 168, "occupancy_pct": 71, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen", "lake_view"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_002", "commune": "Annecy", "zone_slug": "annecy-haute-savoie", "adr_eur": 195, "occupancy_pct": 74, "capacity": 6, "type": "T3", "amenities": ["wifi", "kitchen", "parking"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_003", "commune": "Annecy", "zone_slug": "annecy-haute-savoie", "adr_eur": 142, "occupancy_pct": 68, "capacity": 3, "type": "Studio", "amenities": ["wifi", "central"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_004", "commune": "Talloires", "zone_slug": "annecy-haute-savoie", "adr_eur": 245, "occupancy_pct": 64, "capacity": 5, "type": "T3", "amenities": ["wifi", "kitchen", "lake_view", "parking"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_005", "commune": "Sévrier", "zone_slug": "annecy-haute-savoie", "adr_eur": 158, "occupancy_pct": 66, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_010", "commune": "Lyon 2e", "zone_slug": "greater-lyon", "adr_eur": 138, "occupancy_pct": 72, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen", "central"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_011", "commune": "Lyon 1er", "zone_slug": "greater-lyon", "adr_eur": 156, "occupancy_pct": 75, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen", "historic"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_012", "commune": "Lyon 6e", "zone_slug": "greater-lyon", "adr_eur": 168, "occupancy_pct": 70, "capacity": 5, "type": "T3", "amenities": ["wifi", "parking", "upscale"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_013", "commune": "Lyon 7e", "zone_slug": "greater-lyon", "adr_eur": 112, "occupancy_pct": 68, "capacity": 3, "type": "Studio", "amenities": ["wifi", "kitchen"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_014", "commune": "Villeurbanne", "zone_slug": "greater-lyon", "adr_eur": 98, "occupancy_pct": 64, "capacity": 4, "type": "T2", "amenities": ["wifi", "metro"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_020", "commune": "Grenoble", "zone_slug": "grenoble-isere", "adr_eur": 92, "occupancy_pct": 64, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_021", "commune": "Grenoble", "zone_slug": "grenoble-isere", "adr_eur": 108, "occupancy_pct": 66, "capacity": 5, "type": "T3", "amenities": ["wifi", "parking", "central"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_022", "commune": "Meylan", "zone_slug": "grenoble-isere", "adr_eur": 124, "occupancy_pct": 58, "capacity": 6, "type": "T4", "amenities": ["wifi", "parking", "garden"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_030", "commune": "Dijon", "zone_slug": "dijon-cote-dor", "adr_eur": 102, "occupancy_pct": 61, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen", "historic"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_031", "commune": "Dijon", "zone_slug": "dijon-cote-dor", "adr_eur": 118, "occupancy_pct": 64, "capacity": 5, "type": "T3", "amenities": ["wifi", "central", "parking"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_032", "commune": "Beaune", "zone_slug": "dijon-cote-dor", "adr_eur": 142, "occupancy_pct": 67, "capacity": 4, "type": "T2", "amenities": ["wifi", "wine_country"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_040", "commune": "Megève", "zone_slug": "ski-access", "adr_eur": 312, "occupancy_pct": 58, "capacity": 6, "type": "T3", "amenities": ["wifi", "ski_storage", "fireplace"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_041", "commune": "Morzine", "zone_slug": "ski-access", "adr_eur": 224, "occupancy_pct": 54, "capacity": 8, "type": "Maison", "amenities": ["wifi", "ski_storage", "balcony"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_042", "commune": "La Clusaz", "zone_slug": "ski-access", "adr_eur": 198, "occupancy_pct": 52, "capacity": 6, "type": "T3", "amenities": ["wifi", "ski_storage"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_043", "commune": "Les Gets", "zone_slug": "ski-access", "adr_eur": 235, "occupancy_pct": 55, "capacity": 7, "type": "T4", "amenities": ["wifi", "ski_storage", "balcony", "fireplace"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_050", "commune": "Ferney-Voltaire", "zone_slug": "pays-de-gex", "adr_eur": 138, "occupancy_pct": 66, "capacity": 4, "type": "T2", "amenities": ["wifi", "kitchen", "geneva_access"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_051", "commune": "Cessy", "zone_slug": "pays-de-gex", "adr_eur": 124, "occupancy_pct": 62, "capacity": 4, "type": "T2", "amenities": ["wifi", "parking"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_052", "commune": "Divonne-les-Bains", "zone_slug": "pays-de-gex", "adr_eur": 165, "occupancy_pct": 64, "capacity": 5, "type": "T3", "amenities": ["wifi", "thermal_spa_nearby"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_053", "commune": "Saint-Genis-Pouilly", "zone_slug": "pays-de-gex", "adr_eur": 152, "occupancy_pct": 68, "capacity": 4, "type": "T2", "amenities": ["wifi", "cern_access"], "source": "Airbnb", "synthetic": false},
+
+  {"id": "ab_060", "commune": "Annemasse", "zone_slug": "geneva-periphery", "adr_eur": 142, "occupancy_pct": 67, "capacity": 4, "type": "T2", "amenities": ["wifi", "tram_geneva"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_061", "commune": "Thonon-les-Bains", "zone_slug": "geneva-periphery", "adr_eur": 158, "occupancy_pct": 64, "capacity": 5, "type": "T3", "amenities": ["wifi", "lake_view"], "source": "Airbnb", "synthetic": false},
+  {"id": "ab_062", "commune": "Évian-les-Bains", "zone_slug": "geneva-periphery", "adr_eur": 178, "occupancy_pct": 66, "capacity": 5, "type": "T3", "amenities": ["wifi", "lake_view", "thermal"], "source": "Airbnb", "synthetic": false}
+]

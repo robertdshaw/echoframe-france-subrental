@@ -1,0 +1,27 @@
+[
+  {"id": "rc_001", "commune": "Annecy", "zone_slug": "annecy-haute-savoie", "rent_monthly": 1180, "charges": 80, "size_m2": 52, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 28, "listing_type": "long_term"},
+  {"id": "rc_002", "commune": "Annecy", "zone_slug": "annecy-haute-savoie", "rent_monthly": 1450, "charges": 95, "size_m2": 68, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 16, "listing_type": "long_term"},
+  {"id": "rc_003", "commune": "Sévrier", "zone_slug": "annecy-haute-savoie", "rent_monthly": 980, "charges": 70, "size_m2": 48, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 34, "listing_type": "long_term"},
+
+  {"id": "rc_010", "commune": "Lyon 1er", "zone_slug": "greater-lyon", "rent_monthly": 1280, "charges": 90, "size_m2": 48, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 18, "listing_type": "long_term"},
+  {"id": "rc_011", "commune": "Lyon 2e", "zone_slug": "greater-lyon", "rent_monthly": 1180, "charges": 85, "size_m2": 46, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 22, "listing_type": "long_term"},
+  {"id": "rc_012", "commune": "Lyon 6e", "zone_slug": "greater-lyon", "rent_monthly": 1620, "charges": 110, "size_m2": 62, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 12, "listing_type": "long_term"},
+  {"id": "rc_013", "commune": "Villeurbanne", "zone_slug": "greater-lyon", "rent_monthly": 920, "charges": 75, "size_m2": 42, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 26, "listing_type": "long_term"},
+
+  {"id": "rc_020", "commune": "Grenoble", "zone_slug": "grenoble-isere", "rent_monthly": 720, "charges": 60, "size_m2": 44, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 32, "listing_type": "long_term"},
+  {"id": "rc_021", "commune": "Grenoble", "zone_slug": "grenoble-isere", "rent_monthly": 880, "charges": 70, "size_m2": 56, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 24, "listing_type": "long_term"},
+  {"id": "rc_022", "commune": "Meylan", "zone_slug": "grenoble-isere", "rent_monthly": 1040, "charges": 80, "size_m2": 62, "rooms": 3, "source_platform": "SeLoger", "days_on_market": 21, "listing_type": "long_term"},
+
+  {"id": "rc_030", "commune": "Dijon", "zone_slug": "dijon-cote-dor", "rent_monthly": 680, "charges": 55, "size_m2": 46, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 28, "listing_type": "long_term"},
+  {"id": "rc_031", "commune": "Dijon", "zone_slug": "dijon-cote-dor", "rent_monthly": 820, "charges": 65, "size_m2": 58, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 22, "listing_type": "long_term"},
+
+  {"id": "rc_040", "commune": "Megève", "zone_slug": "ski-access", "rent_monthly": 1480, "charges": 110, "size_m2": 60, "rooms": 3, "source_platform": "SeLoger", "days_on_market": 42, "listing_type": "long_term"},
+  {"id": "rc_041", "commune": "Morzine", "zone_slug": "ski-access", "rent_monthly": 1120, "charges": 90, "size_m2": 54, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 38, "listing_type": "long_term"},
+
+  {"id": "rc_050", "commune": "Cessy", "zone_slug": "pays-de-gex", "rent_monthly": 1240, "charges": 80, "size_m2": 56, "rooms": 3, "source_platform": "SeLoger", "days_on_market": 18, "listing_type": "long_term"},
+  {"id": "rc_051", "commune": "Ferney-Voltaire", "zone_slug": "pays-de-gex", "rent_monthly": 1320, "charges": 85, "size_m2": 58, "rooms": 3, "source_platform": "LeBonCoin", "days_on_market": 14, "listing_type": "long_term"},
+  {"id": "rc_052", "commune": "Saint-Genis-Pouilly", "zone_slug": "pays-de-gex", "rent_monthly": 1180, "charges": 80, "size_m2": 54, "rooms": 3, "source_platform": "SeLoger", "days_on_market": 16, "listing_type": "long_term"},
+
+  {"id": "rc_060", "commune": "Annemasse", "zone_slug": "geneva-periphery", "rent_monthly": 1080, "charges": 75, "size_m2": 50, "rooms": 2, "source_platform": "SeLoger", "days_on_market": 22, "listing_type": "long_term"},
+  {"id": "rc_061", "commune": "Thonon-les-Bains", "zone_slug": "geneva-periphery", "rent_monthly": 980, "charges": 70, "size_m2": 52, "rooms": 2, "source_platform": "LeBonCoin", "days_on_market": 28, "listing_type": "long_term"}
+]

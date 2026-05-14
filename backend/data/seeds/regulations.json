@@ -1,0 +1,32 @@
+{
+  "by_commune": {
+    "Lyon 1er":      {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Lyon 2e":       {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Lyon 3e":       {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Lyon 6e":       {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Lyon 7e":       {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Villeurbanne":  {"registration_required": true,  "changement_usage": "strict",   "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Annecy":        {"registration_required": true,  "changement_usage": "moderate", "cap_120_days": true,  "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Grenoble":      {"registration_required": true,  "changement_usage": "moderate", "cap_120_days": true,  "encadrement_loyers": true,  "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Dijon":         {"registration_required": true,  "changement_usage": "light",    "cap_120_days": false, "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Cessy":         {"registration_required": false, "changement_usage": "none",     "cap_120_days": false, "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Ferney-Voltaire": {"registration_required": false, "changement_usage": "none",   "cap_120_days": false, "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Gex":           {"registration_required": false, "changement_usage": "none",     "cap_120_days": false, "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Megève":        {"registration_required": true,  "changement_usage": "moderate", "cap_120_days": true,  "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Morzine":       {"registration_required": true,  "changement_usage": "moderate", "cap_120_days": true,  "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true},
+    "Annemasse":     {"registration_required": true,  "changement_usage": "light",    "cap_120_days": false, "encadrement_loyers": false, "dpe_min_class": "F", "dpe_class_g_banned": true}
+  },
+  "national_2026": {
+    "dpe_g_residential_rental_ban": "2025-01-01",
+    "dpe_f_residential_rental_ban_planned": "2028-01-01",
+    "micro_bic_abattement_pct": 50,
+    "micro_bic_threshold_eur": 77700,
+    "lmnp_seuil_recettes_eur": 23000,
+    "lmnp_amortissement_allowed": true,
+    "cfe_min_eur": 224,
+    "cfe_max_band_eur": 7349,
+    "taxe_sejour_per_night_min_eur": 0.20,
+    "taxe_sejour_per_night_max_eur": 4.65,
+    "assurance_pno_typical_pct_of_rent": 1.2
+  }
+}
