@@ -24,11 +24,11 @@ async def status():
         "sources": [
             {
                 "key": "insee",
-                "name": "INSEE",
+                "name": "INSEE Melodi",
                 "description": "Housing stock, population, vacancy, tourism",
-                "status": "live" if settings.insee_api_key else "seed_fallback",
-                "cost": "free (token registration)",
-                "endpoint": "api.insee.fr",
+                "status": "live (authenticated)" if settings.insee_api_key else "live (anonymous · 30 req/min)",
+                "cost": "free (keyless tier available)",
+                "endpoint": "api.insee.fr/melodi",
             },
             {
                 "key": "bdf",

@@ -1,16 +1,29 @@
 """
-INSEE (Institut national de la statistique et des études économiques)
-client — housing stock, population, tourism, vacancy rates.
+INSEE Melodi client — housing stock, population, tourism, vacancy rates.
 
-Endpoint: https://api.insee.fr/
-Auth: bearer token from data.insee.fr (free, requires registration).
-Set INSEE_API_KEY to enable; falls back to seed constants otherwise.
+Endpoint: https://api.insee.fr/melodi
+Auth: optional. INSEE exposes a "libre" / Key Less plan that's
+accessible without subscription at 30 requests/minute — INSEE's own
+catalogue page reads: "accessible librement sans souscription, avec
+une limite de 30 interrogations par minute." Plenty for a single
+dashboard.
 
-Useful datasets for this project:
-  · DS_LOGEMENT — housing stock + vacancy by commune (TR_LOGEMENT_HARMONISE)
-  · DS_RP — recensement de la population (5-year cohorts)
+Modes:
+  1. Anonymous (default — no INSEE_API_KEY set): hit api.insee.fr/melodi
+     directly. 30 req/min anonymous cap.
+  2. Authenticated (INSEE_API_KEY set): same URL, with Authorization:
+     Bearer header. Higher rate limit if the operator has an approved
+     subscription.
+
+The seed fallback only kicks in on actual HTTP errors, not on missing
+auth — which is the right behaviour because the "missing key" path is
+itself a valid live mode.
+
+Useful datasets:
+  · DS_LOGEMENT — housing stock + vacancy by commune
+  · DS_RP — recensement de la population
   · DS_TOURISM — fréquentation hôtelière + meublé touristique
-  · DS_ICA — Indicateur de conjoncture d'activité (commerce + services)
+  · DS_ICA — Indicateur de conjoncture d'activité
 """
 
 from __future__ import annotations
@@ -38,17 +51,25 @@ class INSEEClient:
     def is_configured(self) -> bool:
         return bool(self.api_key and self.api_key.strip())
 
+    def _auth_headers(self) -> Dict[str, str]:
+        """Return the Authorization header when a key is set, else empty.
+
+        Either way the call hits api.insee.fr/melodi; the only
+        difference is rate limit (anonymous: 30 req/min, authenticated:
+        higher).
+        """
+        if self.is_configured:
+            return {"Authorization": f"Bearer {self.api_key}"}
+        return {}
+
     async def get_vacancy_rate(self, code_insee: str) -> Optional[Dict[str, Any]]:
         """Logement vacant rate for a commune (5-year census base)."""
-        if not self.is_configured:
-            return self._fallback_vacancy(code_insee)
         try:
             async with httpx.AsyncClient(timeout=self.TIMEOUT) as client:
-                headers = {"Authorization": f"Bearer {self.api_key}"}
                 r = await client.get(
                     f"{self.BASE_URL}DS_LOGEMENT/observations",
                     params={"GEO": code_insee, "INDICATEUR": "TX_LOGVAC"},
-                    headers=headers,
+                    headers=self._auth_headers(),
                 )
                 r.raise_for_status()
                 payload = r.json()
@@ -59,7 +80,8 @@ class INSEEClient:
                     "code_insee": code_insee,
                     "vacancy_rate_pct": float(obs[0].get("OBS_VALUE", 0)),
                     "year": obs[0].get("TIME_PERIOD"),
-                    "source": "INSEE DS_LOGEMENT",
+                    "source": "INSEE Melodi · DS_LOGEMENT"
+                    + (" (auth)" if self.is_configured else " (anonymous)"),
                     "fetched_at": datetime.utcnow().isoformat(),
                 }
         except Exception as exc:
@@ -68,14 +90,12 @@ class INSEEClient:
 
     async def get_population(self, code_insee: str) -> Optional[Dict[str, Any]]:
         """Population municipale (recensement)."""
-        if not self.is_configured:
-            return None
         try:
             async with httpx.AsyncClient(timeout=self.TIMEOUT) as client:
                 r = await client.get(
                     f"{self.BASE_URL}DS_RP/observations",
                     params={"GEO": code_insee, "INDICATEUR": "POP_MUN"},
-                    headers={"Authorization": f"Bearer {self.api_key}"},
+                    headers=self._auth_headers(),
                 )
                 r.raise_for_status()
                 payload = r.json()
@@ -84,7 +104,8 @@ class INSEEClient:
                     "code_insee": code_insee,
                     "population": int(obs[0].get("OBS_VALUE", 0)) if obs else None,
                     "year": obs[0].get("TIME_PERIOD") if obs else None,
-                    "source": "INSEE recensement",
+                    "source": "INSEE Melodi · recensement"
+                    + (" (auth)" if self.is_configured else " (anonymous)"),
                 }
         except Exception as exc:
             logger.warning("INSEE population fetch failed: %s", exc)
