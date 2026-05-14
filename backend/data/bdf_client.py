@@ -1,14 +1,23 @@
 """
 Banque de France WebStat client — interest rates, credit, macro.
 
-Endpoint: https://webstat.banque-france.fr/ws_wsen/
-Auth: optional API key (BDF_API_KEY); most series public without key.
-Falls back to documented Q1 2026 constants.
+Endpoint: https://webstat.banque-france.fr/api/explore/v2.1/catalog/datasets/
+Auth: REQUIRED — register at webstat.banque-france.fr, generate a key
+under "Mes clés d'API", set BDF_API_KEY env var. Free tier.
+
+The new BdF API gates everything behind an Authorization: Apikey
+<key> header. The legacy unauthenticated /ws_wsen/ endpoint has been
+deprecated, so when BDF_API_KEY is absent we fall back to documented
+Q1 2026 constants rather than attempting an unauthenticated call.
 
 Key series for sub-rental underwriting:
   · MIR.M.FR.B.A2C.A.R.A.2240.EUR.N — taux moyen crédit immobilier
   · MIR.M.FR.B.A2A.AM.R.A.2240.EUR.N — taux moyen crédit conso
   · BSI.M.FR.N.A.A20.A.1.U2.2253.Z01.E — encours crédits immobilier
+
+The new endpoint takes pseudo-SQL queries against an `observations`
+table; see https://webstat.banque-france.fr/fr/pages/api-guide/ for
+the full guide.
 """
 
 from __future__ import annotations
@@ -57,76 +66,78 @@ _FALLBACKS = {
 
 
 class BdFClient:
-    BASE_URL = "https://webstat.banque-france.fr/ws_wsen/rest/data"
+    """Client for the new WebStat API (v2.1)."""
+
+    BASE_URL = "https://webstat.banque-france.fr/api/explore/v2.1/catalog/datasets"
+    OBSERVATIONS_PATH = "/observations/exports/json"
     TIMEOUT = 12.0
+
+    # Series keys we care about for the dashboard's macro chip.
+    SERIES_MORTGAGE = "MIR.M.FR.B.A2C.A.R.A.2240.EUR.N"
 
     def __init__(self) -> None:
         self.api_key = settings.bdf_api_key
 
-    async def get_mortgage_rate(self) -> Dict[str, Any]:
-        """Latest mean mortgage rate (TAEG)."""
-        # The MIR series doesn't strictly need an API key, but if the
-        # caller has BDF_API_KEY set we use it for rate-limit headroom.
+    @property
+    def is_configured(self) -> bool:
+        return bool(self.api_key and self.api_key.strip())
+
+    async def get_latest_observation(self, series_key: str) -> Optional[Dict[str, Any]]:
+        """Latest observation for an arbitrary series_key, or None on failure."""
+        if not self.is_configured:
+            return None
         try:
             async with httpx.AsyncClient(timeout=self.TIMEOUT) as client:
-                headers = {"Accept": "application/json"}
-                if self.api_key:
-                    headers["X-IBM-Client-Id"] = self.api_key
                 r = await client.get(
-                    f"{self.BASE_URL}/MIR/M.FR.B.A2C.A.R.A.2240.EUR.N",
-                    headers=headers,
+                    f"{self.BASE_URL}{self.OBSERVATIONS_PATH}",
+                    params={
+                        "where": f'series_key="{series_key}"',
+                        "order_by": "time_period_start desc",
+                        "limit": 1,
+                    },
+                    headers={
+                        "Authorization": f"Apikey {self.api_key}",
+                        "Accept": "application/json",
+                    },
                 )
                 r.raise_for_status()
-                # SDMX-JSON payload — extract the latest observation.
-                payload = r.json()
-                obs = self._latest_obs(payload)
-                if obs is None:
-                    raise ValueError("no observations")
+                rows = r.json()
+                if not rows:
+                    return None
+                row = rows[0]
                 return {
-                    "mortgage_rate_pct": obs["value"],
-                    "as_of": obs["period"],
-                    "source": "BdF MIR (live)",
-                    "fetched_at": datetime.utcnow().isoformat(),
+                    "value": row.get("obs_value"),
+                    "period": row.get("time_period"),
+                    "title": row.get("title_fr") or row.get("title_en"),
+                    "updated_at": row.get("updated_at"),
                 }
         except Exception as exc:
-            logger.warning("BdF mortgage rate fetch failed (%s); using fallback", exc)
-            return _FALLBACKS["mortgage_rate_pct"]
+            logger.warning(
+                "BdF series fetch for %s failed (%s); falling back", series_key, exc
+            )
+            return None
+
+    async def get_mortgage_rate(self) -> Dict[str, Any]:
+        """Latest mean mortgage rate (TAEG)."""
+        live = await self.get_latest_observation(self.SERIES_MORTGAGE)
+        if live and live.get("value") is not None:
+            return {
+                "mortgage_rate_pct": float(live["value"]),
+                "as_of": live.get("period"),
+                "source": "BdF WebStat MIR (live)",
+                "fetched_at": datetime.utcnow().isoformat(),
+            }
+        return _FALLBACKS["mortgage_rate_pct"]
 
     async def get_macro_snapshot(self) -> Dict[str, Any]:
         """One-call snapshot for the dashboard's macro chip."""
-        try:
-            mortgage = await self.get_mortgage_rate()
-        except Exception:
-            mortgage = _FALLBACKS["mortgage_rate_pct"]
+        mortgage = await self.get_mortgage_rate()
         return {
             "mortgage_rate": mortgage,
             "consumer_credit_rate": _FALLBACKS["consumer_credit_rate_pct"],
             "euribor_3m": _FALLBACKS["euribor_3m_pct"],
             "cpi_yoy": _FALLBACKS["cpi_yoy_pct"],
         }
-
-    @staticmethod
-    def _latest_obs(sdmx_payload: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        """Extract the most recent (period, value) from an SDMX-JSON response."""
-        try:
-            data_sets = sdmx_payload.get("dataSets", [])
-            series = data_sets[0].get("series", {}) if data_sets else {}
-            time_dim = (
-                sdmx_payload.get("structure", {})
-                .get("dimensions", {})
-                .get("observation", [{}])[0]
-                .get("values", [])
-            )
-            for _, s in series.items():
-                obs = s.get("observations", {})
-                if not obs:
-                    continue
-                latest_idx = max(int(k) for k in obs.keys())
-                period = time_dim[latest_idx]["id"] if latest_idx < len(time_dim) else None
-                return {"period": period, "value": obs[str(latest_idx)][0]}
-        except Exception:
-            return None
-        return None
 
 
 bdf_client = BdFClient()

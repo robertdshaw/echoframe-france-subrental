@@ -32,11 +32,11 @@ async def status():
             },
             {
                 "key": "bdf",
-                "name": "Banque de France",
+                "name": "Banque de France WebStat",
                 "description": "Mortgage rates, EURIBOR, consumer credit",
-                "status": "live",
-                "cost": "free (public)",
-                "endpoint": "webstat.banque-france.fr",
+                "status": "live" if settings.bdf_api_key else "seed_fallback",
+                "cost": "free (key required since 2024 API migration)",
+                "endpoint": "webstat.banque-france.fr/api/explore/v2.1",
             },
             {
                 "key": "newsdata",
