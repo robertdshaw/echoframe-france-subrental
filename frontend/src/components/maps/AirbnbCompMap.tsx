@@ -37,6 +37,13 @@ interface Comp {
   type: string;
   amenities: string[];
   source: string;
+  // Populated by the Apify scrape path. When absent (seed comps), the
+  // map falls back to the commune centroid below.
+  lat?: number;
+  lng?: number;
+  url?: string;
+  rating?: number;
+  review_count?: number;
 }
 
 // Commune centroids for the 38 communes in our seed corpus. The
@@ -169,13 +176,21 @@ export default function AirbnbCompMap({ zoneSlug, zoneCenter }: Props) {
     () =>
       comps
         .map((c) => {
-          const centroid = COMMUNE_CENTROIDS[c.commune];
-          if (!centroid) return null;
-          const [dx, dy] = jitterFor(c.id);
-          return {
-            comp: c,
-            position: [centroid[0] + dx, centroid[1] + dy] as [number, number],
-          };
+          // Prefer real coordinates from Apify-scraped listings. Fall
+          // back to the commune centroid (with deterministic jitter) only
+          // for seed comps that lack lat/lng.
+          let position: [number, number] | null = null;
+          if (typeof c.lat === 'number' && typeof c.lng === 'number') {
+            position = [c.lat, c.lng];
+          } else {
+            const centroid = COMMUNE_CENTROIDS[c.commune];
+            if (centroid) {
+              const [dx, dy] = jitterFor(c.id);
+              position = [centroid[0] + dx, centroid[1] + dy];
+            }
+          }
+          if (!position) return null;
+          return { comp: c, position };
         })
         .filter((m): m is NonNullable<typeof m> => m !== null),
     [comps],
@@ -251,9 +266,29 @@ export default function AirbnbCompMap({ zoneSlug, zoneCenter }: Props) {
                     <div style={{ marginTop: 6, fontSize: 11, color: '#666' }}>
                       {comp.type} · sleeps {comp.capacity} · {comp.occupancy_pct}% occupancy
                     </div>
+                    {typeof comp.rating === 'number' && (
+                      <div style={{ marginTop: 4, fontSize: 11, color: '#666' }}>
+                        ★ {comp.rating.toFixed(2)}
+                        {typeof comp.review_count === 'number'
+                          ? ` · ${comp.review_count} reviews`
+                          : ''}
+                      </div>
+                    )}
                     {comp.amenities?.length > 0 && (
                       <div style={{ marginTop: 6, fontSize: 11 }}>
                         {comp.amenities.slice(0, 4).join(' · ')}
+                      </div>
+                    )}
+                    {comp.url && (
+                      <div style={{ marginTop: 6, fontSize: 11 }}>
+                        <a
+                          href={comp.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: '#E85D26', textDecoration: 'underline' }}
+                        >
+                          View on Airbnb →
+                        </a>
                       </div>
                     )}
                     <div style={{ marginTop: 6, fontSize: 10, color: '#999' }}>

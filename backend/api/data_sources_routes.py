@@ -64,11 +64,11 @@ async def status():
             },
             {
                 "key": "airbnb",
-                "name": "Airbnb (scrape)",
-                "description": "ADR + occupancy proxies for comp listings",
-                "status": "seed_fallback",
-                "cost": "scrape (best-effort)",
-                "endpoint": "airbnb.fr search results",
+                "name": "Airbnb listings (Apify scrape)",
+                "description": "Real comp listings with lat/lng/price/rating, 25 per zone, 24h disk cache",
+                "status": "live" if os.environ.get("APIFY_TOKEN") else "seed_fallback",
+                "cost": "$0.50 per 1k results · ~$2.60/mo at our volume (cache-limited)",
+                "endpoint": "api.apify.com/v2 · actor tri_angle/new-fast-airbnb-scraper · token via APIFY_TOKEN",
             },
             {
                 "key": "seloger",

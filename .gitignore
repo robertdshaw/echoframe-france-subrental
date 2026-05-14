@@ -50,3 +50,6 @@ backend/models/diagnostics/*.json
 
 # Cost ledger (generated at runtime)
 backend/services/cost_ledger.json
+
+# Scraper cache (Apify Airbnb results, regenerated per-zone per-day)
+backend/data/cache/

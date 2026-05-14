@@ -56,6 +56,13 @@ class CompListing(BaseModel):
     amenities: Optional[List[str]] = None
     source: str
     synthetic: bool = False
+    # Populated for scraped listings (Apify). Frontend prefers these over
+    # commune-centroid fallback when present.
+    lat: Optional[float] = None
+    lng: Optional[float] = None
+    url: Optional[str] = None
+    rating: Optional[float] = None
+    review_count: Optional[int] = None
 
 
 class ConfidenceInterval(BaseModel):

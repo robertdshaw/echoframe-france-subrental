@@ -8,6 +8,7 @@ from typing import List
 from fastapi import APIRouter, Query
 
 from api.schemas import CompListing
+from data.airbnb_scraper import get_listings_for_zone
 from data.property_seeder import load_airbnb_comps, load_rental_comps
 
 router = APIRouter(prefix="/api/market", tags=["market"])
@@ -15,6 +16,15 @@ router = APIRouter(prefix="/api/market", tags=["market"])
 
 @router.get("/zones/{slug}/airbnb-comps", response_model=List[CompListing])
 async def airbnb_comps(slug: str) -> List[CompListing]:
+    """Return Apify-scraped Airbnb comps when available, else seed.
+
+    The scraper itself handles cache + Apify call + graceful failure;
+    we just merge in seed comps when the scrape returns empty so the
+    map always has at least the placeholder pins to render.
+    """
+    scraped = await get_listings_for_zone(slug)
+    if scraped:
+        return [CompListing(**c) for c in scraped]
     return [CompListing(**c) for c in load_airbnb_comps(slug)]
 
 
