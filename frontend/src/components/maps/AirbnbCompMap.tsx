@@ -112,13 +112,29 @@ const jitterFor = (id: string): [number, number] => {
   return [dx, dy];
 };
 
-/** Recenters the map when zone changes. */
-function MapRefocus({ center }: { center: [number, number] }) {
+/** Fits the map to the comp markers (or zone center when there are none).
+ *
+ * Hardcoding zoom was the old bug — at wide viewports zoom=11 still showed
+ * Tours → Milan. fitBounds with padding snaps to where the data actually
+ * is. maxZoom prevents zoom-in past 13 when comps are tightly clustered
+ * (e.g. all in one Lyon arrondissement).
+ */
+function MapRefocus({
+  center,
+  positions,
+}: {
+  center: [number, number];
+  positions: [number, number][];
+}) {
   const map = useMap();
   useEffect(() => {
-    map.setView(center, map.getZoom());
+    if (positions.length > 0) {
+      map.fitBounds(positions, { padding: [40, 40], maxZoom: 13 });
+    } else {
+      map.setView(center, 11);
+    }
     setTimeout(() => map.invalidateSize(), 80);
-  }, [center, map]);
+  }, [center, positions, map]);
   return null;
 }
 
@@ -165,6 +181,13 @@ export default function AirbnbCompMap({ zoneSlug, zoneCenter }: Props) {
     [comps],
   );
 
+  // Separate, stable positions list so MapRefocus's effect doesn't re-fire
+  // on unrelated rerenders.
+  const positions = useMemo(
+    () => markers.map((m) => m.position),
+    [markers],
+  );
+
   if (loading) {
     return (
       <div className="card" style={{ padding: 24, color: 'var(--ef-text-secondary)' }}>
@@ -193,7 +216,7 @@ export default function AirbnbCompMap({ zoneSlug, zoneCenter }: Props) {
           attributionControl
         >
           <ZoomControl position="topright" />
-          <MapRefocus center={zoneCenter} />
+          <MapRefocus center={zoneCenter} positions={positions} />
           <TileLayer
             attribution='&copy; <a href="https://carto.com/attributions">CARTO</a> · <a href="https://www.openstreetmap.org/copyright">OSM</a>'
             url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
