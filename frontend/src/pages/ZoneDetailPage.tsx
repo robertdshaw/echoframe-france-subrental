@@ -1,6 +1,35 @@
+import type { ReactNode } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
+import AirbnbCompMap from '../components/maps/AirbnbCompMap';
+
+// Lightweight markdown bold parser. The deterministic briefing uses
+// **Title.** prefixes and we want them rendered as real bold rather
+// than literal asterisks. Avoids pulling in a full markdown lib.
+const renderBold = (text: string): ReactNode[] => {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return parts.map((p, i) => {
+    if (p.startsWith('**') && p.endsWith('**')) {
+      return (
+        <strong key={i} style={{ color: 'var(--ef-text-primary)' }}>
+          {p.slice(2, -2)}
+        </strong>
+      );
+    }
+    return <span key={i}>{p}</span>;
+  });
+};
+
+const ZONE_CENTERS: Record<string, [number, number]> = {
+  'pays-de-gex': [46.3167, 6.0667],
+  'annecy-haute-savoie': [45.8992, 6.1294],
+  'greater-lyon': [45.764, 4.8357],
+  'grenoble-isere': [45.1885, 5.7245],
+  'dijon-cote-dor': [47.322, 5.0415],
+  'ski-access': [45.95, 6.45],
+  'geneva-periphery': [46.195, 6.235],
+};
 
 export default function ZoneDetailPage() {
   const { slug } = useParams<{ slug: string }>();
@@ -32,13 +61,36 @@ export default function ZoneDetailPage() {
       {narrative?.narrative && (
         <section className="card" style={{ padding: 22 }}>
           <div className="eyebrow">Executive briefing · {narrative.model}</div>
-          <div style={{ marginTop: 12, fontSize: 14, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
-            {narrative.narrative}
+          <div
+            style={{
+              marginTop: 14,
+              fontSize: 14.5,
+              lineHeight: 1.75,
+              color: 'var(--ef-slate-200)',
+              maxWidth: 820,
+            }}
+          >
+            {narrative.narrative
+              .split(/\n\n+/)
+              .map((p: string) => p.trim())
+              .filter(Boolean)
+              .map((p: string, i: number) => (
+                <p key={i} style={{ marginBottom: 14 }}>
+                  {renderBold(p)}
+                </p>
+              ))}
           </div>
         </section>
       )}
 
-      <Section number="01" eyebrow="Where to source" title="Airbnb-to-landlord spread by commune">
+      <Section number="01" eyebrow="Airbnb comps" title={`Live ADR + occupancy across ${z.name}`}>
+        <AirbnbCompMap
+          zoneSlug={slug!}
+          zoneCenter={ZONE_CENTERS[slug!] ?? [46.5, 5.5]}
+        />
+      </Section>
+
+      <Section number="02" eyebrow="Where to source" title="Airbnb-to-landlord spread by commune">
         <div className="card" style={{ padding: 18 }}>
           {!spread?.by_commune?.length ? (
             <div style={{ color: 'var(--ef-text-secondary)', fontSize: 13 }}>No comp pairs yet for this zone.</div>
@@ -69,7 +121,7 @@ export default function ZoneDetailPage() {
         </div>
       </Section>
 
-      <Section number="02" eyebrow="Forecast trajectory" title="6 / 12 / 24-month posterior bands">
+      <Section number="03" eyebrow="Forecast trajectory" title="6 / 12 / 24-month posterior bands">
         <div className="card" style={{ padding: 18, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {forecast.forecasts.map((h: any) => (
             <div key={h.horizon_months}>
@@ -88,7 +140,7 @@ export default function ZoneDetailPage() {
         </div>
       </Section>
 
-      <Section number="03" eyebrow="Signals" title="News + regulation feed">
+      <Section number="04" eyebrow="Signals" title="News + regulation feed">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {(signals ?? []).slice(0, 8).map((s: any) => (
             <div key={s.id} className="card" style={{ padding: 14 }}>
