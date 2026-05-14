@@ -55,8 +55,44 @@ class ApifyClient:
         becomes `tri_angle~new-fast-airbnb-scraper` in the path (Apify
         substitutes `~` for `/` per their REST convention).
         """
+        result = await self.run_actor_sync_debug(actor_id, actor_input, timeout)
+        if result.get("ok"):
+            return result.get("data")
+        return None
+
+    async def run_actor_sync_debug(
+        self,
+        actor_id: str,
+        actor_input: Dict[str, Any],
+        timeout: Optional[float] = None,
+    ) -> Dict[str, Any]:
+        """Same call as run_actor_sync but returns the full diagnostic shape.
+
+        Returns:
+          {
+            "ok": bool,
+            "http_status": int | None,
+            "data": list | None,
+            "error": str | None,
+            "error_body_excerpt": str | None,
+            "actor_id": str,
+            "token_present": bool,
+          }
+
+        Used by the /api/data-sources/airbnb-diagnose endpoint so we can
+        see exactly why Apify is rejecting calls without grepping Render
+        logs.
+        """
         if not self.is_configured:
-            return None
+            return {
+                "ok": False,
+                "http_status": None,
+                "data": None,
+                "error": "APIFY_TOKEN not set",
+                "error_body_excerpt": None,
+                "actor_id": actor_id,
+                "token_present": False,
+            }
         path_id = actor_id.replace("/", "~")
         url = f"{self.BASE_URL}acts/{path_id}/run-sync-get-dataset-items"
         try:
@@ -69,23 +105,54 @@ class ApifyClient:
                     },
                     json=actor_input,
                 )
-                r.raise_for_status()
+                if r.status_code >= 400:
+                    logger.warning(
+                        "Apify %s HTTP %s: %s",
+                        actor_id,
+                        r.status_code,
+                        r.text[:200],
+                    )
+                    return {
+                        "ok": False,
+                        "http_status": r.status_code,
+                        "data": None,
+                        "error": f"HTTP {r.status_code}",
+                        "error_body_excerpt": r.text[:500],
+                        "actor_id": actor_id,
+                        "token_present": True,
+                    }
                 data = r.json()
-                if isinstance(data, list):
-                    return data
-                logger.warning("Apify %s returned non-list payload", actor_id)
-                return None
-        except httpx.HTTPStatusError as exc:
-            logger.warning(
-                "Apify %s HTTP %s: %s",
-                actor_id,
-                exc.response.status_code,
-                exc.response.text[:200],
-            )
-            return None
+                if not isinstance(data, list):
+                    logger.warning("Apify %s returned non-list payload", actor_id)
+                    return {
+                        "ok": False,
+                        "http_status": r.status_code,
+                        "data": None,
+                        "error": "Non-list response payload",
+                        "error_body_excerpt": str(data)[:500],
+                        "actor_id": actor_id,
+                        "token_present": True,
+                    }
+                return {
+                    "ok": True,
+                    "http_status": r.status_code,
+                    "data": data,
+                    "error": None,
+                    "error_body_excerpt": None,
+                    "actor_id": actor_id,
+                    "token_present": True,
+                }
         except Exception as exc:
             logger.warning("Apify %s failed: %s", actor_id, exc)
-            return None
+            return {
+                "ok": False,
+                "http_status": None,
+                "data": None,
+                "error": f"{type(exc).__name__}: {exc}",
+                "error_body_excerpt": None,
+                "actor_id": actor_id,
+                "token_present": True,
+            }
 
 
 apify_client = ApifyClient()
