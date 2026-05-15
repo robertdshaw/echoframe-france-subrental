@@ -16,6 +16,7 @@ from fastapi import APIRouter
 
 from api.schemas import CompListing
 from data.airroi_client import airroi_client
+from data.carte_loyers_client import carte_loyers_client
 from data.datagouv_client import datagouv_client
 from data.eurostat_client import eurostat_client
 from data.property_seeder import (
@@ -28,6 +29,15 @@ from data.property_seeder import (
 )
 
 router = APIRouter(prefix="/api/market", tags=["market"])
+
+
+def _commune_insee(slug: str) -> Dict[str, str]:
+    """commune name → code_insee for one zone (from the commune seed)."""
+    return {
+        c["name"]: c["code_insee"]
+        for c in load_communes()
+        if c["zone_slug"] == slug
+    }
 
 
 @router.get("/zones/{slug}/airbnb-comps", response_model=List[CompListing])
@@ -63,11 +73,15 @@ async def rental_comps(slug: str) -> List[CompListing]:
 async def airbnb_landlord_spread(slug: str):
     """Per-commune Airbnb-revenue minus landlord-rent spread.
 
-    Seed-only (Apify removed). The comp map and this table read the same
-    seed corpus, so they stay consistent.
+    Airbnb side: seed comps (Apify removed). Rent side: the official
+    Carte des loyers €/m² (DHUP/ANIL, free, no key) applied to the
+    median comp size, with the seed rent_monthly kept as a cross-check.
+    Each row carries both numbers + which one drove the headline spread
+    so nothing is silently fabricated.
     """
     ab = load_airbnb_comps(slug)
     rc = load_rental_comps(slug)
+    insee = _commune_insee(slug)
     by_commune: dict[str, dict] = {}
     for c in ab:
         com = c["commune"]
@@ -90,22 +104,87 @@ async def airbnb_landlord_spread(slug: str):
         med_adr = statistics.median(adrs)
         med_occ = statistics.median(occs)
         airbnb_annual = med_adr * 365 * (med_occ / 100)
+
         rents = [x["rent_monthly"] for x in buckets["rental"] if x.get("rent_monthly")]
+        sizes = [x["size_m2"] for x in buckets["rental"] if x.get("size_m2")]
         if not rents:
             continue
-        med_rent = statistics.median(rents)
-        rental_annual = med_rent * 12
+        seed_rental_annual = statistics.median(rents) * 12
+
+        # Official rent anchor: €/m² × median comp size × 12.
+        official_rental_annual = None
+        official = (
+            carte_loyers_client.get_rent_per_m2(insee[com])
+            if com in insee
+            else None
+        )
+        if official and sizes:
+            official_rental_annual = (
+                official["rent_eur_per_m2"] * statistics.median(sizes) * 12
+            )
+
+        # Prefer the official anchor for the headline spread; fall back
+        # to the seed rent when the commune isn't in the ministry model.
+        rental_annual = official_rental_annual or seed_rental_annual
+        rent_basis = "official_carte_loyers" if official_rental_annual else "seed"
+
         rows.append({
             "commune": com,
             "airbnb_annual_eur": round(airbnb_annual, 0),
             "rental_annual_eur": round(rental_annual, 0),
+            "rental_annual_seed_eur": round(seed_rental_annual, 0),
+            "rental_annual_official_eur": (
+                round(official_rental_annual, 0) if official_rental_annual else None
+            ),
+            "rent_eur_per_m2_official": official["rent_eur_per_m2"] if official else None,
+            "rent_basis": rent_basis,
             "spread_eur": round(airbnb_annual - rental_annual, 0),
             "spread_multiple": round(airbnb_annual / rental_annual, 2) if rental_annual else None,
             "n_airbnb_comps": len(buckets["airbnb"]),
             "n_rental_comps": len(buckets["rental"]),
         })
     rows.sort(key=lambda r: r["spread_eur"], reverse=True)
-    return {"zone_slug": slug, "by_commune": rows}
+    return {
+        "zone_slug": slug,
+        "rent_provenance": carte_loyers_client._provenance,
+        "by_commune": rows,
+    }
+
+
+@router.get("/zones/{slug}/rent-benchmark")
+async def rent_benchmark(slug: str):
+    """Official predicted asking rent €/m² per commune for the zone.
+
+    Source: data.gouv.fr "Carte des loyers" 2025 (DHUP/ANIL ministry
+    model) — free, keyless, no anti-bot, ~34,900 communes, refreshed
+    annually. This replaces the SeLoger/LeBonCoin scrape, which is
+    impossible server-side (both are DataDome-walled). Live-refreshed
+    once per process with the committed official seed as fallback.
+    """
+    insee = _commune_insee(slug)
+    out = []
+    for name, code in insee.items():
+        rec = carte_loyers_client.get_rent_per_m2(code)
+        if not rec:
+            out.append({"commune": name, "code_insee": code, "rent_eur_per_m2": None})
+            continue
+        out.append({
+            "commune": name,
+            "code_insee": code,
+            "rent_eur_per_m2": rec["rent_eur_per_m2"],
+            "ci_low": rec.get("ci_low"),
+            "ci_high": rec.get("ci_high"),
+            "pred_type": rec.get("pred_type"),
+            "n_obs_commune": rec.get("n_obs_commune"),
+        })
+    vals = [r["rent_eur_per_m2"] for r in out if r["rent_eur_per_m2"]]
+    return {
+        "zone_slug": slug,
+        "zone_median_eur_per_m2": round(statistics.median(vals), 2) if vals else None,
+        "provenance": carte_loyers_client._provenance,
+        "source": "data.gouv.fr · Carte des loyers 2025 (DHUP/ANIL)",
+        "by_commune": out,
+    }
 
 
 @router.get("/zones/{slug}/monthly-series")

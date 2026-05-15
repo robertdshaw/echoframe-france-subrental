@@ -1,0 +1,303 @@
+{
+  "_note": "Official \"Carte des loyers\" 2025 predicted apartment rent EUR/m2 per commune (DHUP/ANIL ministry model, data.gouv.fr). Live-refreshable; this is the committed fallback. pred_type=commune means commune-level estimate, maille=grid-interpolated.",
+  "source": "data.gouv.fr · Carte des loyers 2025 · pred-app-mef-dhup",
+  "vintage": "2025",
+  "by_code_insee": {
+    "38229": {
+      "commune": "Meylan",
+      "rent_eur_per_m2": 15.47,
+      "ci_low": 12.33,
+      "ci_high": 19.41,
+      "pred_type": "commune",
+      "n_obs_commune": 3021
+    },
+    "38151": {
+      "commune": "Échirolles",
+      "rent_eur_per_m2": 13.52,
+      "ci_low": 10.76,
+      "ci_high": 16.98,
+      "pred_type": "commune",
+      "n_obs_commune": 3436
+    },
+    "74119": {
+      "commune": "Évian-les-Bains",
+      "rent_eur_per_m2": 19.23,
+      "ci_low": 14.24,
+      "ci_high": 25.98,
+      "pred_type": "commune",
+      "n_obs_commune": 2507
+    },
+    "74041": {
+      "commune": "Bons-en-Chablais",
+      "rent_eur_per_m2": 15.8,
+      "ci_low": 10.53,
+      "ci_high": 23.72,
+      "pred_type": "maille",
+      "n_obs_commune": 6
+    },
+    "74191": {
+      "commune": "Morzine",
+      "rent_eur_per_m2": 15.8,
+      "ci_low": 10.53,
+      "ci_high": 23.72,
+      "pred_type": "maille",
+      "n_obs_commune": 95
+    },
+    "74271": {
+      "commune": "Sévrier",
+      "rent_eur_per_m2": 15.8,
+      "ci_low": 10.53,
+      "ci_high": 23.72,
+      "pred_type": "maille",
+      "n_obs_commune": 7
+    },
+    "74010": {
+      "commune": "Annecy",
+      "rent_eur_per_m2": 20.45,
+      "ci_low": 14.84,
+      "ci_high": 28.18,
+      "pred_type": "commune",
+      "n_obs_commune": 16239
+    },
+    "74281": {
+      "commune": "Thonon-les-Bains",
+      "rent_eur_per_m2": 16.87,
+      "ci_low": 13.38,
+      "ci_high": 21.27,
+      "pred_type": "commune",
+      "n_obs_commune": 6238
+    },
+    "74173": {
+      "commune": "Megève",
+      "rent_eur_per_m2": 21.01,
+      "ci_low": 13.71,
+      "ci_high": 32.2,
+      "pred_type": "commune",
+      "n_obs_commune": 163
+    },
+    "38562": {
+      "commune": "Vizille",
+      "rent_eur_per_m2": 11.35,
+      "ci_low": 8.89,
+      "ci_high": 14.5,
+      "pred_type": "commune",
+      "n_obs_commune": 1691
+    },
+    "74299": {
+      "commune": "Veyrier-du-Lac",
+      "rent_eur_per_m2": 22.17,
+      "ci_low": 16.98,
+      "ci_high": 28.93,
+      "pred_type": "maille",
+      "n_obs_commune": 77
+    },
+    "74275": {
+      "commune": "Talloires",
+      "rent_eur_per_m2": 22.17,
+      "ci_low": 16.98,
+      "ci_high": 28.93,
+      "pred_type": "maille",
+      "n_obs_commune": 42
+    },
+    "74080": {
+      "commune": "La Clusaz",
+      "rent_eur_per_m2": 15.15,
+      "ci_low": 12.22,
+      "ci_high": 18.78,
+      "pred_type": "maille",
+      "n_obs_commune": 39
+    },
+    "74180": {
+      "commune": "Menthon-Saint-Bernard",
+      "rent_eur_per_m2": 24.7,
+      "ci_low": 18.69,
+      "ci_high": 32.63,
+      "pred_type": "commune",
+      "n_obs_commune": 234
+    },
+    "69381": {
+      "commune": "Lyon 1er",
+      "rent_eur_per_m2": 17.06,
+      "ci_low": 12.66,
+      "ci_high": 23.01,
+      "pred_type": "commune",
+      "n_obs_commune": 7396
+    },
+    "21617": {
+      "commune": "Talant",
+      "rent_eur_per_m2": 13.32,
+      "ci_low": 10.92,
+      "ci_high": 16.24,
+      "pred_type": "commune",
+      "n_obs_commune": 965
+    },
+    "38185": {
+      "commune": "Grenoble",
+      "rent_eur_per_m2": 13.41,
+      "ci_low": 10.61,
+      "ci_high": 16.96,
+      "pred_type": "commune",
+      "n_obs_commune": 55295
+    },
+    "01143": {
+      "commune": "Divonne-les-Bains",
+      "rent_eur_per_m2": 27.85,
+      "ci_low": 20.85,
+      "ci_high": 37.18,
+      "pred_type": "commune",
+      "n_obs_commune": 2957
+    },
+    "01173": {
+      "commune": "Gex",
+      "rent_eur_per_m2": 21.18,
+      "ci_low": 16.77,
+      "ci_high": 26.75,
+      "pred_type": "commune",
+      "n_obs_commune": 4353
+    },
+    "01071": {
+      "commune": "Cessy",
+      "rent_eur_per_m2": 20.78,
+      "ci_low": 16.06,
+      "ci_high": 26.9,
+      "pred_type": "commune",
+      "n_obs_commune": 794
+    },
+    "69029": {
+      "commune": "Bron",
+      "rent_eur_per_m2": 16.21,
+      "ci_low": 12.96,
+      "ci_high": 20.27,
+      "pred_type": "commune",
+      "n_obs_commune": 6109
+    },
+    "69382": {
+      "commune": "Lyon 2e",
+      "rent_eur_per_m2": 17.61,
+      "ci_low": 12.93,
+      "ci_high": 23.98,
+      "pred_type": "commune",
+      "n_obs_commune": 15165
+    },
+    "74124": {
+      "commune": "Les Gets",
+      "rent_eur_per_m2": 21.27,
+      "ci_low": 16.52,
+      "ci_high": 27.38,
+      "pred_type": "commune",
+      "n_obs_commune": 167
+    },
+    "74136": {
+      "commune": "Le Grand-Bornand",
+      "rent_eur_per_m2": 15.04,
+      "ci_low": 12.19,
+      "ci_high": 18.54,
+      "pred_type": "maille",
+      "n_obs_commune": 62
+    },
+    "69266": {
+      "commune": "Villeurbanne",
+      "rent_eur_per_m2": 15.63,
+      "ci_low": 12.52,
+      "ci_high": 19.51,
+      "pred_type": "commune",
+      "n_obs_commune": 37416
+    },
+    "69386": {
+      "commune": "Lyon 6e",
+      "rent_eur_per_m2": 17.66,
+      "ci_low": 13.3,
+      "ci_high": 23.44,
+      "pred_type": "commune",
+      "n_obs_commune": 16953
+    },
+    "69387": {
+      "commune": "Lyon 7e",
+      "rent_eur_per_m2": 16.31,
+      "ci_low": 12.81,
+      "ci_high": 20.75,
+      "pred_type": "commune",
+      "n_obs_commune": 25499
+    },
+    "01160": {
+      "commune": "Ferney-Voltaire",
+      "rent_eur_per_m2": 26.13,
+      "ci_low": 18.76,
+      "ci_high": 36.4,
+      "pred_type": "commune",
+      "n_obs_commune": 3829
+    },
+    "69383": {
+      "commune": "Lyon 3e",
+      "rent_eur_per_m2": 16.4,
+      "ci_low": 12.82,
+      "ci_high": 20.98,
+      "pred_type": "commune",
+      "n_obs_commune": 30256
+    },
+    "01354": {
+      "commune": "Saint-Genis-Pouilly",
+      "rent_eur_per_m2": 22.55,
+      "ci_low": 17.25,
+      "ci_high": 29.48,
+      "pred_type": "commune",
+      "n_obs_commune": 2468
+    },
+    "69034": {
+      "commune": "Caluire-et-Cuire",
+      "rent_eur_per_m2": 15.94,
+      "ci_low": 12.47,
+      "ci_high": 20.39,
+      "pred_type": "commune",
+      "n_obs_commune": 7599
+    },
+    "21231": {
+      "commune": "Dijon",
+      "rent_eur_per_m2": 13.34,
+      "ci_low": 10.83,
+      "ci_high": 16.43,
+      "pred_type": "commune",
+      "n_obs_commune": 51194
+    },
+    "38421": {
+      "commune": "Saint-Martin-d'Hères",
+      "rent_eur_per_m2": 13.5,
+      "ci_low": 10.77,
+      "ci_high": 16.92,
+      "pred_type": "commune",
+      "n_obs_commune": 6047
+    },
+    "74012": {
+      "commune": "Annemasse",
+      "rent_eur_per_m2": 20.99,
+      "ci_low": 15.86,
+      "ci_high": 27.78,
+      "pred_type": "commune",
+      "n_obs_commune": 11387
+    },
+    "21054": {
+      "commune": "Beaune",
+      "rent_eur_per_m2": 13.18,
+      "ci_low": 10.51,
+      "ci_high": 16.54,
+      "pred_type": "commune",
+      "n_obs_commune": 3858
+    },
+    "21464": {
+      "commune": "Nuits-Saint-Georges",
+      "rent_eur_per_m2": 12.19,
+      "ci_low": 9.95,
+      "ci_high": 14.92,
+      "pred_type": "commune",
+      "n_obs_commune": 779
+    },
+    "21166": {
+      "commune": "Chenôve",
+      "rent_eur_per_m2": 13.1,
+      "ci_low": 10.65,
+      "ci_high": 16.11,
+      "pred_type": "commune",
+      "n_obs_commune": 1210
+    }
+  }
+}
