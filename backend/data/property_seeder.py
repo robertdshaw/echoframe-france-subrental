@@ -81,6 +81,28 @@ def load_news_signals(zone_slug: Optional[str] = None) -> List[Dict[str, Any]]:
     return rows
 
 
+def load_monthly_str_series(zone_slug: Optional[str] = None) -> Dict[str, Any]:
+    """24-month ADR + occupancy series. Returns the whole doc, or just the
+    one zone's series list when zone_slug is given."""
+    doc = _load("monthly_str_series.json")
+    if zone_slug:
+        return {
+            "zone_slug": zone_slug,
+            "as_of_month": doc.get("as_of_month"),
+            "series": doc.get("series_by_zone", {}).get(zone_slug, []),
+            "source": "seed (derived from 2026 medians + French seasonality)",
+        }
+    return doc
+
+
+def load_dpe_distribution(code_insee: Optional[str] = None) -> Dict[str, Any]:
+    """Per-commune DPE class shares. Whole doc, or one commune's record."""
+    doc = _load("dpe_distribution.json")
+    if code_insee:
+        return doc.get("by_code_insee", {}).get(code_insee, {})
+    return doc
+
+
 # ---------------------------------------------------------------
 # DB seeder — populates operational tables on first startup
 # ---------------------------------------------------------------
