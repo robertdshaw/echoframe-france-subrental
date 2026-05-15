@@ -11,8 +11,6 @@ from datetime import datetime
 from fastapi import APIRouter
 
 from config import settings
-from data.airbnb_scraper import DEFAULT_ACTOR_ID, LIMIT_PER_ZONE, ZONE_SEARCH_TERMS
-from data.apify_client import apify_client
 
 
 router = APIRouter(prefix="/api/data-sources", tags=["data-sources"])
@@ -42,12 +40,12 @@ async def status():
             },
             {
                 "key": "airbnb",
-                "name": "Airbnb listings (Apify scrape)",
-                "description": "Per-listing comps (lat/lng/price/rating), 25 per zone, 24h cache. Merged with seed comps and feeds both the comp map and the spread analyser.",
-                "status": "live" if os.environ.get("APIFY_TOKEN") else "seed_fallback",
+                "name": "Airbnb comps (curated seed)",
+                "description": "Per-commune comps from the curated seed corpus. The Apify live scrape was REMOVED 2026-05: the actor ignored the per-call item cap and Render's cache is ephemeral, so every request re-scraped whole cities (~$50 in one session). Seed-only by design; zero per-call cost.",
+                "status": "seed (Apify removed)",
                 "wired": True,
-                "cost": "$0.50 per 1k results · ~$2.60/mo (cache-limited)",
-                "endpoint": "api.apify.com/v2 · actor tri_angle/new-fast-airbnb-scraper · APIFY_TOKEN",
+                "cost": "free (curated)",
+                "endpoint": "backend/data/seeds/airbnb_comps.json",
             },
             {
                 "key": "datagouv",
@@ -158,58 +156,4 @@ async def status():
                 "endpoint": "api.anthropic.com",
             },
         ],
-    }
-
-
-@router.get("/airbnb-diagnose")
-async def airbnb_diagnose():
-    """Run a tiny Apify probe and return the raw result for debugging.
-
-    Hit this when the comp map shows seed data and you want to know
-    why Apify isn't kicking in. The endpoint runs a minimal scrape
-    (2 listings, Lyon) and returns the actual HTTP status, error body,
-    and a sample item so you can see exactly what's failing without
-    grepping Render logs.
-    """
-    actor_id = os.environ.get("APIFY_AIRBNB_ACTOR_ID", DEFAULT_ACTOR_ID)
-    probe_input = {
-        "locationQueries": ["Lyon"],
-        "maxItems": 2,
-        "currency": "EUR",
-    }
-    started = datetime.utcnow()
-    result = await apify_client.run_actor_sync_debug(actor_id, probe_input, timeout=60.0)
-    elapsed_ms = int((datetime.utcnow() - started).total_seconds() * 1000)
-
-    sample = None
-    if result.get("data"):
-        first = result["data"][0]
-        if isinstance(first, dict):
-            sample = {
-                "id": first.get("id"),
-                "name": first.get("name"),
-                "url": first.get("url"),
-                "roomType": first.get("roomType"),
-                "personCapacity": first.get("personCapacity"),
-                "coordinates": first.get("coordinates"),
-                "pricing": first.get("pricing"),
-                "rating": first.get("rating"),
-            }
-
-    return {
-        "checked_at": datetime.utcnow().isoformat(),
-        "elapsed_ms": elapsed_ms,
-        "actor_id_used": result.get("actor_id"),
-        "token_present": result.get("token_present"),
-        "ok": result.get("ok"),
-        "http_status": result.get("http_status"),
-        "error": result.get("error"),
-        "error_body_excerpt": result.get("error_body_excerpt"),
-        "items_returned": len(result["data"]) if result.get("data") else 0,
-        "sample_item": sample,
-        "probe_input": probe_input,
-        "configured": {
-            "limit_per_zone": LIMIT_PER_ZONE,
-            "zones_with_search_terms": list(ZONE_SEARCH_TERMS.keys()),
-        },
     }

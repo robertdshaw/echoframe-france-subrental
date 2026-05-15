@@ -15,7 +15,6 @@ from typing import Any, Dict, List
 from fastapi import APIRouter
 
 from api.schemas import CompListing
-from data.airbnb_scraper import get_listings_for_zone
 from data.airroi_client import airroi_client
 from data.datagouv_client import datagouv_client
 from data.eurostat_client import eurostat_client
@@ -31,30 +30,17 @@ from data.property_seeder import (
 router = APIRouter(prefix="/api/market", tags=["market"])
 
 
-async def _merged_airbnb_comps(slug: str) -> List[Dict[str, Any]]:
-    """Apify-scraped comps unioned with seed comps, deduped by id.
-
-    The old code returned scraped XOR seed; the spread analyser then
-    silently used seed-only even when 25 live comps existed, so the comp
-    map and the spread table disagreed. This merges both so every
-    downstream calc sees the full set.
-    """
-    scraped = await get_listings_for_zone(slug)
-    seed = load_airbnb_comps(slug)
-    by_id: Dict[str, Dict[str, Any]] = {c["id"]: c for c in seed}
-    for c in scraped:
-        by_id[c["id"]] = c  # live wins on id collision
-    return list(by_id.values())
-
-
 @router.get("/zones/{slug}/airbnb-comps", response_model=List[CompListing])
 async def airbnb_comps(slug: str) -> List[CompListing]:
-    """Apify-scraped Airbnb comps merged with seed comps.
+    """Airbnb comps for the zone, from the curated seed corpus.
 
-    Returns the union so the map is dense even when the scraper only
-    resolves a handful of listings for a sparse commune.
+    The Apify live-scrape path was removed after it ran unbounded
+    (the actor ignored the per-call item cap and the Render cache is
+    ephemeral, so every request re-scraped whole cities — ~$50 in one
+    session). Comps are seed-only by design now; there is no per-call
+    cost. See data-sources status for provenance.
     """
-    return [CompListing(**c) for c in await _merged_airbnb_comps(slug)]
+    return [CompListing(**c) for c in load_airbnb_comps(slug)]
 
 
 @router.get("/zones/{slug}/rental-comps", response_model=List[CompListing])
@@ -77,10 +63,10 @@ async def rental_comps(slug: str) -> List[CompListing]:
 async def airbnb_landlord_spread(slug: str):
     """Per-commune Airbnb-revenue minus landlord-rent spread.
 
-    Now uses the merged (scraped + seed) Airbnb set so the spread table
-    reflects the same comps the map plots.
+    Seed-only (Apify removed). The comp map and this table read the same
+    seed corpus, so they stay consistent.
     """
-    ab = await _merged_airbnb_comps(slug)
+    ab = load_airbnb_comps(slug)
     rc = load_rental_comps(slug)
     by_commune: dict[str, dict] = {}
     for c in ab:
@@ -259,7 +245,7 @@ async def market_overview():
         "zones": load_zones(),
         "data_sources": [
             {"name": "AirROI", "cost_eur_monthly": 10, "note": "Primary STR · live monthly series · 5/7 zones"},
-            {"name": "Apify Airbnb scrape", "cost_eur_monthly": 3, "note": "Per-listing comps · merged with seed"},
+            {"name": "Airbnb comps", "cost_eur_monthly": 0, "note": "Curated seed corpus (Apify removed — ran unbounded)"},
             {"name": "ADEME DPE", "cost_eur_monthly": 0, "note": "Live per-commune DPE distribution · F+G ban exposure"},
             {"name": "Eurostat", "cost_eur_monthly": 0, "note": "Live tourism-nights + HPI macro context"},
         ],

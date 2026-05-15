@@ -46,14 +46,11 @@ services:
         sync: false
       - key: BDF_API_KEY
         sync: false
-      # Live Airbnb comps — Apify scraper (~$2.60/mo at our volume).
-      # Get a token at console.apify.com/account/integrations.
-      - key: APIFY_TOKEN
-        sync: false
-      # Actor id is NOT a secret — committed so it's overridable without
-      # a code change. Default matches data/airbnb_scraper.py.
-      - key: APIFY_AIRBNB_ACTOR_ID
-        value: tri_angle/new-fast-airbnb-scraper
+      # NOTE: Apify (APIFY_TOKEN) was removed 2026-05 after the actor
+      # ignored its per-call item cap and ran unbounded (~$50 in one
+      # session). Airbnb comps are seed-only now; do not re-add a paid
+      # scraper without an Apify-side hard budget + a verified item cap.
+      #
       # Primary STR benchmark — AirROI (~$10/mo, $10 min top-up, 5/7
       # zones). Key self-serve at airroi.com/api/developer/activate.
       - key: AIRROI_API_KEY
