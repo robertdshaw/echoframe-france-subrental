@@ -34,7 +34,10 @@ services:
         value: '["https://echoframe-france-web.onrender.com","http://localhost:3000","http://localhost:5173"]'
       - key: DATABASE_URL
         value: sqlite:///./echoframe_france.db
-      # Optional API keys — set via Render dashboard, never commit.
+      # Optional API keys — set the SECRET ones in the Render dashboard
+      # (Environment tab), never commit. Without these the app runs on the
+      # curated seed corpus; with them the comp map / STR series / news
+      # feed switch to live data automatically (code is already wired).
       - key: ANTHROPIC_API_KEY
         sync: false
       - key: NEWSDATA_API_KEY
@@ -42,6 +45,18 @@ services:
       - key: INSEE_API_KEY
         sync: false
       - key: BDF_API_KEY
+        sync: false
+      # Live Airbnb comps — Apify scraper (~$2.60/mo at our volume).
+      # Get a token at console.apify.com/account/integrations.
+      - key: APIFY_TOKEN
+        sync: false
+      # Actor id is NOT a secret — committed so it's overridable without
+      # a code change. Default matches data/airbnb_scraper.py.
+      - key: APIFY_AIRBNB_ACTOR_ID
+        value: tri_angle/new-fast-airbnb-scraper
+      # Primary STR benchmark — AirROI (~$10/mo, $10 min top-up, 5/7
+      # zones). Key self-serve at airroi.com/api/developer/activate.
+      - key: AIRROI_API_KEY
         sync: false
 
   # ---------------------------------------------------------------
