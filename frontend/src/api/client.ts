@@ -57,6 +57,48 @@ export interface MarginResponse {
   notes: string[];
 }
 
+export interface LandlordOffer {
+  target_margin_pct: number;
+  max_rent_offer_monthly_eur: number | null;
+  vs_asking_rent_eur: number | null;
+  vs_official_market_pct: number | null;
+  interpretation: string;
+}
+
+export interface PropertyScore {
+  property_id: number | null;
+  commune: string;
+  zone_slug: string | null;
+  type: string | null;
+  size_m2: number | null;
+  asking_rent_monthly_eur: number | null;
+  official_market_rent_monthly_eur: number | null;
+  official_rent_eur_per_m2: number | null;
+  zone_adr_eur: number | null;
+  zone_occupancy_pct: number | null;
+  margin: {
+    gross_revenue_annual_eur: number;
+    net_margin_annual_eur: number;
+    net_margin_pct: number;
+  } | null;
+  spread_multiple: number | null;
+  dpe_class: string | null;
+  commune_f_plus_g_pct: number | null;
+  dpe_letting_blocked: boolean;
+  regulatory_friction: string;
+  verdict: 'TARGET' | 'WAIT' | 'AVOID' | 'INSUFFICIENT_DATA';
+  landlord_offer: LandlordOffer | null;
+  rent_provenance: string;
+  data_gaps: string[];
+  rank?: number;
+}
+
+export interface RankedResponse {
+  n_properties: number;
+  top_5: PropertyScore[];
+  all: PropertyScore[];
+}
+
 export const api = {
   listZones: () => apiClient.get<ZoneSummary[]>('/api/zones').then((r) => r.data),
   getZoneForecast: (slug: string) =>
@@ -76,6 +118,22 @@ export const api = {
     apiClient.get(`/api/narrative/${slug}`).then((r) => r.data),
   // Operational
   listOwners: () => apiClient.get('/api/owners').then((r) => r.data),
+  createOwner: (body: Record<string, unknown>) =>
+    apiClient.post('/api/owners', body).then((r) => r.data),
+  deleteOwner: (id: number) =>
+    apiClient.delete(`/api/owners/${id}`).then((r) => r.data),
+  createOwnerProperty: (ownerId: number, body: Record<string, unknown>) =>
+    apiClient.post(`/api/owners/${ownerId}/properties`, body).then((r) => r.data),
+  listProperties: () =>
+    apiClient.get('/api/properties').then((r) => r.data),
+  deleteProperty: (id: number) =>
+    apiClient.delete(`/api/properties/${id}`).then((r) => r.data),
+  scoreAdhoc: (body: Record<string, unknown>) =>
+    apiClient.post<PropertyScore>('/api/properties/score', body).then((r) => r.data),
+  rankedProperties: () =>
+    apiClient.get<RankedResponse>('/api/properties/ranked').then((r) => r.data),
+  createPipeline: (body: Record<string, unknown>) =>
+    apiClient.post('/api/pipeline/owners', body).then((r) => r.data),
   pipelineOverview: () => apiClient.get('/api/pipeline/overview').then((r) => r.data),
   listPipeline: () => apiClient.get('/api/pipeline/owners').then((r) => r.data),
   financeSummary: () => apiClient.get('/api/finance/summary').then((r) => r.data),

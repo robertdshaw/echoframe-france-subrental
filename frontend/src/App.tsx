@@ -4,6 +4,7 @@ import DashboardPage from './pages/DashboardPage';
 import MarketResearchPage from './pages/MarketResearchPage';
 import ZoneDetailPage from './pages/ZoneDetailPage';
 import PipelinePage from './pages/PipelinePage';
+import CandidatesPage from './pages/CandidatesPage';
 import OwnersPage from './pages/OwnersPage';
 import FinancePage from './pages/FinancePage';
 import OpsPage from './pages/OpsPage';
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/market" element={<MarketResearchPage />} />
           <Route path="/market/zone/:slug" element={<ZoneDetailPage />} />
           <Route path="/pipeline" element={<PipelinePage />} />
+          <Route path="/candidates" element={<CandidatesPage />} />
           <Route path="/owners" element={<OwnersPage />} />
           <Route path="/finance" element={<FinancePage />} />
           <Route path="/ops" element={<OpsPage />} />

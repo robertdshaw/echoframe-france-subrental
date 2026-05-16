@@ -3,6 +3,7 @@ import {
   LayoutDashboard,
   Map,
   GitBranch,
+  Target,
   Users,
   Wallet,
   Wrench,
@@ -14,6 +15,7 @@ import {
 const NAV = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/market', label: 'Market Research', icon: Map },
+  { to: '/candidates', label: 'Candidates', icon: Target },
   { to: '/pipeline', label: 'Pipeline', icon: GitBranch },
   { to: '/owners', label: 'Owners', icon: Users },
   { to: '/finance', label: 'Finance', icon: Wallet },
