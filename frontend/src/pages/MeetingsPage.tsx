@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
+import AddRecordForm from '../components/AddRecordForm';
 
 const TAG_TONE: Record<string, string> = { malmo: '#7AA7FF', cessy: '#F7A76B', remote: '#A8B2C1' };
 
@@ -11,6 +12,25 @@ export default function MeetingsPage() {
         <div className="eyebrow" style={{ color: 'var(--ef-orange-500)' }}>Meetings</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, marginTop: 4 }}>Malmö ↔ Cessy sync notes</h1>
       </header>
+      <AddRecordForm
+        title="Log a meeting"
+        postPath="/api/meetings"
+        invalidate={['meetings']}
+        listFields={['attendees']}
+        fields={[
+          { name: 'title', label: 'Title', type: 'text', required: true },
+          { name: 'meeting_date', label: 'Date', type: 'date', required: true },
+          {
+            name: 'location_tag',
+            label: 'Location',
+            type: 'select',
+            options: ['malmo', 'cessy', 'remote'],
+          },
+          { name: 'attendees', label: 'Attendees (comma-sep)', type: 'text', placeholder: 'Rob, Bertrand' },
+          { name: 'notes_md', label: 'Notes', type: 'text' },
+        ]}
+        defaults={{ location_tag: 'remote' }}
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {(items ?? []).map((m: any) => (
           <article key={m.id} className="card" style={{ padding: 18 }}>

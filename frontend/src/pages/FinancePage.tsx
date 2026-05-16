@@ -1,5 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
+import AddRecordForm from '../components/AddRecordForm';
+
+const FIN_KEYS = ['fin-summary', 'pnl'];
 
 export default function FinancePage() {
   const { data: summary } = useQuery({ queryKey: ['fin-summary'], queryFn: api.financeSummary });
@@ -11,6 +14,41 @@ export default function FinancePage() {
         <div className="eyebrow" style={{ color: 'var(--ef-orange-500)' }}>Finance</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, marginTop: 4 }}>Budget · Revenue · P&L</h1>
       </header>
+
+      <AddRecordForm
+        title="Add revenue"
+        postPath="/api/finance/revenue"
+        invalidate={FIN_KEYS}
+        fields={[
+          { name: 'month', label: 'Month', type: 'date', required: true },
+          { name: 'gross_revenue', label: 'Gross €', type: 'number', required: true },
+          { name: 'platform_fees', label: 'Platform fees €', type: 'number' },
+          { name: 'net_revenue', label: 'Net €', type: 'number', required: true },
+          { name: 'source', label: 'Source', type: 'text', placeholder: 'Airbnb' },
+        ]}
+      />
+      <AddRecordForm
+        title="Add expense"
+        postPath="/api/finance/expenses"
+        invalidate={FIN_KEYS}
+        fields={[
+          { name: 'category', label: 'Category', type: 'text', required: true, placeholder: 'cleaning' },
+          { name: 'amount', label: 'Amount €', type: 'number', required: true },
+          { name: 'expense_date', label: 'Date', type: 'date', required: true },
+          { name: 'description', label: 'Description', type: 'text' },
+        ]}
+      />
+      <AddRecordForm
+        title="Add budget line"
+        postPath="/api/finance/budget"
+        invalidate={FIN_KEYS}
+        fields={[
+          { name: 'category', label: 'Category', type: 'text', required: true },
+          { name: 'amount', label: 'Amount €', type: 'number', required: true },
+          { name: 'period', label: 'Period', type: 'text', required: true, placeholder: '2026 / 2026-Q1' },
+          { name: 'notes', label: 'Notes', type: 'text' },
+        ]}
+      />
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12 }}>
         <Kpi label="Budget" value={summary?.budget_total_eur ?? 0} />

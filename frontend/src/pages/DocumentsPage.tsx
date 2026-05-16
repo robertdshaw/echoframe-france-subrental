@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
+import AddRecordForm from '../components/AddRecordForm';
 
 const CATEGORIES = ['contract', 'template', 'legal', 'compliance', 'other'] as const;
 
@@ -11,6 +12,23 @@ export default function DocumentsPage() {
         <div className="eyebrow" style={{ color: 'var(--ef-orange-500)' }}>Documents</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, marginTop: 4 }}>Contracts · templates · legal</h1>
       </header>
+      <AddRecordForm
+        title="Add document"
+        postPath="/api/documents"
+        invalidate={['documents']}
+        fields={[
+          { name: 'title', label: 'Title', type: 'text', required: true },
+          {
+            name: 'category',
+            label: 'Category',
+            type: 'select',
+            options: ['contract', 'template', 'legal', 'compliance', 'other'],
+          },
+          { name: 'file_path', label: 'File path / URL', type: 'text' },
+          { name: 'notes', label: 'Notes', type: 'text' },
+        ]}
+        defaults={{ category: 'other' }}
+      />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
         {CATEGORIES.map((c) => {
           const items = (docs ?? []).filter((d: any) => d.category === c);

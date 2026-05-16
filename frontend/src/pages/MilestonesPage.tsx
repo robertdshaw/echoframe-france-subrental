@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../api/client';
+import AddRecordForm from '../components/AddRecordForm';
 
 const STATUS_TONE: Record<string, string> = {
   not_started: '#5A6577',
@@ -16,6 +17,23 @@ export default function MilestonesPage() {
         <div className="eyebrow" style={{ color: 'var(--ef-orange-500)' }}>Milestones</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, marginTop: 4 }}>Project timeline</h1>
       </header>
+      <AddRecordForm
+        title="Add milestone"
+        postPath="/api/milestones"
+        invalidate={['milestones']}
+        fields={[
+          { name: 'title', label: 'Title', type: 'text', required: true },
+          { name: 'description', label: 'Description', type: 'text' },
+          { name: 'target_date', label: 'Target date', type: 'date' },
+          {
+            name: 'status',
+            label: 'Status',
+            type: 'select',
+            options: ['not_started', 'in_progress', 'at_risk', 'complete'],
+          },
+        ]}
+        defaults={{ status: 'not_started' }}
+      />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {(items ?? []).map((m: any) => (
           <div key={m.id} className="card" style={{ padding: 16, display: 'grid', gridTemplateColumns: '24px 1fr 120px 120px', gap: 14, alignItems: 'center' }}>
