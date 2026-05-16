@@ -186,6 +186,20 @@ class SignalResponse(BaseModel):
 # ---------------------------------------------------------------
 
 
+class AdhocScoreRequest(BaseModel):
+    """Score a flat the operator sourced manually, without saving it."""
+    commune: str
+    size_m2: float
+    rent_monthly: float
+    type: Optional[str] = None
+    rooms: Optional[int] = None
+    capacity: Optional[int] = None
+    charges: Optional[float] = None
+    dpe_class: Optional[str] = None
+    zone_slug: Optional[str] = None
+    target_margin_pct: float = 18.0
+
+
 class OwnerCreate(BaseModel):
     name: str
     email: Optional[str] = None

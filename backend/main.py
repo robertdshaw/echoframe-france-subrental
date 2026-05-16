@@ -29,6 +29,7 @@ from api.narrative_routes import router as narrative_router
 from api.ops_routes import router as ops_router
 from api.owners_routes import router as owners_router
 from api.pipeline_routes import router as pipeline_router
+from api.properties_routes import router as properties_router
 from api.signals_routes import router as signals_router
 from config import settings
 from data.property_seeder import seed_operational_tables_if_empty
@@ -130,6 +131,7 @@ app.include_router(forecast_router)
 app.include_router(market_router)
 app.include_router(owners_router)
 app.include_router(pipeline_router)
+app.include_router(properties_router)
 app.include_router(finance_router)
 app.include_router(ops_router)
 app.include_router(milestones_router)
